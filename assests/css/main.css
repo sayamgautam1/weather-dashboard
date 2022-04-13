@@ -35,7 +35,7 @@ body {
 
 /*style right side / forcast display page */
 .rside {
-  /* display: none; */
+  display: none;
   background: -webkit-linear-gradient(
     bottom,
     rgb(255, 203, 112) 0%,
@@ -58,9 +58,17 @@ body {
   background-color: var(--primary);
   border-radius: 10px;
   margin-bottom: 50px;
-  padding: 25px 0;
+
   position: relative;
   width: 420px;
+}
+#conditions {
+  list-style-type: none;
+  text-align: left;
+  line-height: 1.5em;
+  font-size: 1.7em;
+  margin: 0;
+  padding: 0;
 }
 .nextday {
   display: flex;
