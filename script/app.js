@@ -11,12 +11,16 @@ let apiKey = "55dea95f4672af9a4915f9b86aaf1de6"; //get from weather api account
 /// event listener to get the city name on enter
 searchInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
-    city = searchInput.value;
+    city = searchInput.value.toLowerCase();
     getData(city);
     saveCitySearched(city);
   }
 });
-
+// event listener to get data when the btn in the city list is clicked
+searchList.addEventListener("click", (e) => {
+  city = e.target.innerText.toLowerCase();
+  getData(city);
+});
 //get api request of the city name,
 function getData(location) {
   try {
@@ -66,6 +70,7 @@ function saveCitySearched(cityname) {
   }
   searchedCity.forEach((scity) => {
     let cityDisplayed = document.createElement("button");
+    cityDisplayed.classList.add("city-list-btn");
     cityDisplayed.appendChild(document.createTextNode(scity));
     let list = document.createElement("li");
     list.appendChild(cityDisplayed);
