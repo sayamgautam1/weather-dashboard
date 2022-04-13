@@ -5,6 +5,7 @@ let currentForecast = document.getElementById("current-forecast");
 let currentConditions = document.getElementById("conditions");
 let displayForecastSection = document.querySelector(".rside");
 let city;
+let fiveDaysContainer = document.getElementById("fiveday-forecast");
 let searchedCity = [];
 let todayDate = moment().format("L");
 let apiKey = "55dea95f4672af9a4915f9b86aaf1de6"; //get from weather api account
@@ -35,6 +36,7 @@ function getData(location) {
       })
       .then(function (data) {
         displayCurrentConditions(data);
+        getNextFiveDays(data);
       });
   } catch (error) {
     console.error("error in getting data", error);
@@ -78,6 +80,75 @@ function saveCitySearched(cityname) {
   });
 
   localStorage.setItem("cityname", JSON.stringify(searchedCity));
+}
+/// display the next 5 days
+function getNextFiveDays(data) {
+  let longitude = data.coord.lon;
+  let lattitude = data.coord.lat;
+
+  try {
+    const nextFiveDaysUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lattitude}&lon=${longitude}&units=imperial&exclude=current,minutely,hourly,alerts&appid=${apiKey}`;
+
+    fetch(nextFiveDaysUrl)
+      .then(function (futureResponse) {
+        if (!futureResponse.ok) {
+          throw futureResponse.json();
+        }
+        return futureResponse.json();
+      })
+      .then(function (fiveDaysInfo) {
+        // create a for loop to display the card 5 times, so the next 5 days
+        for (i = 0; i < 5; i++) {
+          let selectedCityFuture = {
+            date: fiveDaysInfo.daily[i].dt,
+            icon: fiveDaysInfo.daily[i].weather[0].icon,
+            temperature: fiveDaysInfo.daily[i].temp.day,
+            humidity: fiveDaysInfo.daily[i].humidity,
+          };
+
+          let nextDate = moment
+            .unix(selectedCityFuture.date)
+            .format("MM/DD/YYYY");
+          let iconImageSrc = `https://openweathermap.org/img/w/${selectedCityFuture.icon}.png`;
+          let iconImageAlt = `${fiveDaysInfo.daily[i].weather[0].icon}`;
+
+          let eachDayContainer = document.createElement("div");
+          eachDayContainer.classList.add("eachDayBox");
+
+          //display date
+          let dateDisplayed = document.createElement("h4");
+          dateDisplayed.appendChild(document.createTextNode(nextDate));
+          eachDayContainer.appendChild(dateDisplayed);
+
+          //display icon
+          let iconDisplayed = document.createElement("p");
+          let picture = document.createElement("img");
+          picture.setAttribute("src", iconImageSrc);
+          picture.setAttribute("alt", iconImageAlt);
+          iconDisplayed.appendChild(picture);
+          eachDayContainer.appendChild(iconDisplayed);
+
+          //display temperatur
+          let tempDisplayed = document.createElement("p");
+          tempDisplayed.appendChild(
+            document.createTextNode(selectedCityFuture.temperature + "F")
+          );
+          eachDayContainer.appendChild(tempDisplayed);
+
+          //display humidity
+          let humidityDisplayed = document.createElement("p");
+          humidityDisplayed.appendChild(
+            document.createTextNode(selectedCityFuture.humidity)
+          );
+          eachDayContainer.appendChild(humidityDisplayed);
+
+          // display all the data in the container
+          fiveDaysContainer.appendChild(eachDayContainer);
+        }
+      });
+  } catch (error) {
+    console.error("error in getting data", error);
+  }
 }
 /* data needed 
 1. coordinates from key cord
