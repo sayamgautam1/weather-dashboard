@@ -12,13 +12,15 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-
-    <!-- Font Awesome link -->
+    <!--fontawesome-->
     <link
       rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!--google fonts-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
     />
     <!--css link-->
     <link rel="stylesheet" href="./assests/css/main.css" />
@@ -27,13 +29,15 @@
     <div class="container">
       <div class="row">
         <!--search section-->
-        <section class="col-12 col-md-4 col-lg-3 lside">
-          <h1>Whats the weather like</h1>
-          <div class="searchbox">
+        <section class="col-12 col-md-4 col-lg-3 mr-2 lside">
+          <h1 class="heading mb-2">Whats the weather like</h1>
+          <div class="searchbox mb-2">
             <input type="text" class="search" placeholder="city name" />
-            <img src="" alt="" />
+            <i class="fa-duotone fa-magnifying-glass"></i>
           </div>
+
           <div class="lastsearch">
+            <hr />
             <h2>last searches</h2>
             <ul class="lastsearch-list">
               <!--add saved search here-->
@@ -41,14 +45,13 @@
           </div>
         </section>
         <!--forecaset display section-->
-        <section class="col-12 col-md-8 col-lg-9 rside">
+        <section class="col-12 col-md-8 col-lg-9 ml-2 rside">
           <!--current forecast location-->
           <div class="location">
-            <img src="" alt="location image" />
-            <p class="location-city">hello</p>
+            <p><i class="fa-solid fa-location-dot"></i>hello</p>
           </div>
           <!--current day forecast-->
-          <div class="card" id="current-forecast">
+          <div class="card currentforecast" id="current-forecast">
             <div class="card-body">
               <ul id="conditions">
                 <!--data from js-->
@@ -56,7 +59,7 @@
             </div>
           </div>
           <h2 id="fiveday">5 day forecast</h2>
-          <div id="daily-forecast"></div>
+          <div id="daily-forecast" class="nextday"></div>
         </section>
       </div>
     </div>
