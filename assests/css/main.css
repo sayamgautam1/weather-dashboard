@@ -1,0 +1,67 @@
+* {
+  box-sizing: border-box;
+}
+:root {
+  --primary: #fff;
+  --secondary: rgb(18, 18, 18);
+  --tertiary: rgb(116, 114, 114);
+}
+body {
+  min-height: 100vh;
+}
+
+/* style the left side of the page */
+.lside {
+  background-color: var(--primary);
+  height: 50vh;
+}
+.heading {
+  color: var(--secondary);
+  font-size: 2em;
+  margin-top: 4em;
+  text-transform: uppercase;
+}
+
+/* search box */
+.search {
+  background-color: rgb(237, 232, 226);
+  border-radius: 10px;
+  box-shadow: 0px 0px 35px -7px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+.lastsearch > h2 {
+  color: var(--tertiary);
+}
+
+/*style right side / forcast display page */
+.rside {
+  /* display: none; */
+  background: -webkit-linear-gradient(
+    bottom,
+    rgb(255, 203, 112) 0%,
+    rgb(107, 138, 169) 30%,
+    rgb(1, 44, 87) 100%
+  );
+
+  /* background: var(--primary);
+  background: linear-gradient(0deg, rgba(0, 0, 200, 0.2), rgba(0, 0, 200, 0)); */
+}
+
+.location {
+  margin-top: 2em;
+  text-align: left;
+  color: var(--secondary);
+  font-size: 3em;
+}
+.currentforecast {
+  text-align: center;
+  background-color: var(--primary);
+  border-radius: 10px;
+  margin-bottom: 50px;
+  padding: 25px 0;
+  position: relative;
+  width: 420px;
+}
+.nextday {
+  display: flex;
+}
