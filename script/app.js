@@ -163,6 +163,22 @@ function getNextFiveDays(data) {
     console.error("error in getting data", error);
   }
 }
+
+// to have previous searched city present
+function showSavedCity() {
+  let savedCity = JSON.parse(localStorage.getItem("cityname"));
+  if (savedCity !== null) {
+    savedCity.forEach((scity) => {
+      let cityDisplayed = document.createElement("button");
+      cityDisplayed.classList.add("city-list-btn");
+      cityDisplayed.appendChild(document.createTextNode(scity));
+      let list = document.createElement("li");
+      list.appendChild(cityDisplayed);
+      searchList.appendChild(list);
+    });
+  }
+}
+showSavedCity();
 /* data needed 
 1. coordinates from key cord
 2. name from key main
