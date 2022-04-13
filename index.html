@@ -31,15 +31,20 @@
         <!--search section-->
         <section class="col-12 col-md-4 col-lg-3 mr-2 lside">
           <h1 class="heading mb-2">Whats the weather like</h1>
-          <div class="searchbox mb-2">
-            <input type="text" class="search" placeholder="city name" />
-            <i class="fa-duotone fa-magnifying-glass"></i>
+          <div class="searchbox d-flex mb-2">
+            <input
+              type="text"
+              id="searchlocation"
+              class="search"
+              placeholder="city name"
+            />
+            <button><i class="fa-duotone fa-magnifying-glass"></i></button>
           </div>
 
           <div class="lastsearch">
             <hr />
             <h2>last searches</h2>
-            <ul class="lastsearch-list">
+            <ul class="lastsearch-list" id="searchlist">
               <!--add saved search here-->
             </ul>
           </div>
@@ -47,7 +52,7 @@
         <!--forecaset display section-->
         <section class="col-12 col-md-8 col-lg-9 ml-2 rside">
           <!--current forecast location-->
-          <div class="location">
+          <div class="location" id="currentlocation">
             <p><i class="fa-solid fa-location-dot"></i>hello</p>
           </div>
           <!--current day forecast-->
@@ -59,7 +64,7 @@
             </div>
           </div>
           <h2 id="fiveday">5 day forecast</h2>
-          <div id="daily-forecast" class="nextday"></div>
+          <div id="fiveday-forecast" class="nextday"></div>
         </section>
       </div>
     </div>
@@ -74,5 +79,15 @@
       integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
       crossorigin="anonymous"
     ></script>
+
+    <!--link fontawesome-->
+    <script
+      src="https://kit.fontawesome.com/1d37754851.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--link moment.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <!--link js script-->
+    <script src="./script/app.js"></script>
   </body>
 </html>
