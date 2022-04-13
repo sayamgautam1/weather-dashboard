@@ -12,16 +12,20 @@ searchInput.addEventListener("keypress", (e) => {
 
 //get api request of the city name,
 function getData(location) {
-  //   const requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`;
-  var requestUrl = "https://api.github.com/orgs/nodejs/repos?per_page=5";
-  fetch(requestUrl)
-    .then(function (response) {
-      if (!response.ok) {
-        throw response.json();
-      }
-      return response.json();
-    })
-    .then(function (data) {
-      console.log(data);
-    });
+  try {
+    const requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
+
+    fetch(requestUrl)
+      .then(function (response) {
+        if (!response.ok) {
+          throw response.json();
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        console.log(data);
+      });
+  } catch (error) {
+    console.error("erroe in getting data", error);
+  }
 }
