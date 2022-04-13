@@ -7,6 +7,7 @@ let displayForecastSection = document.querySelector(".rside");
 let city;
 let fiveDaysContainer = document.getElementById("fiveday-forecast");
 let searchedCity = [];
+
 let todayDate = moment().format("L");
 let apiKey = "55dea95f4672af9a4915f9b86aaf1de6"; //get from weather api account
 /// event listener to get the city name on enter
@@ -67,6 +68,11 @@ function displayCurrentConditions(data) {
 //local storage to save searched city
 function saveCitySearched(cityname) {
   searchList.textContent = "";
+  const cityList = JSON.parse(localStorage.getItem("cityname"));
+  if (cityList !== null) {
+    searchedCity = cityList;
+  }
+
   if (!searchedCity.includes(cityname)) {
     searchedCity.push(cityname);
   }
@@ -97,7 +103,6 @@ function getNextFiveDays(data) {
         return futureResponse.json();
       })
       .then(function (fiveDaysInfo) {
-        console.log(fiveDaysInfo);
         fiveDaysContainer.innerText = "";
         // create a for loop to display the card 5 times, so the next 5 days
         for (i = 0; i < 5; i++) {
