@@ -97,6 +97,8 @@ function getNextFiveDays(data) {
         return futureResponse.json();
       })
       .then(function (fiveDaysInfo) {
+        console.log(fiveDaysInfo);
+        fiveDaysContainer.innerText = "";
         // create a for loop to display the card 5 times, so the next 5 days
         for (i = 0; i < 5; i++) {
           let selectedCityFuture = {
@@ -104,6 +106,7 @@ function getNextFiveDays(data) {
             icon: fiveDaysInfo.daily[i].weather[0].icon,
             temperature: fiveDaysInfo.daily[i].temp.day,
             humidity: fiveDaysInfo.daily[i].humidity,
+            wind: fiveDaysInfo.daily[i].wind_speed,
           };
 
           let nextDate = moment
@@ -113,7 +116,7 @@ function getNextFiveDays(data) {
           let iconImageAlt = `${fiveDaysInfo.daily[i].weather[0].icon}`;
 
           let eachDayContainer = document.createElement("div");
-          eachDayContainer.classList.add("eachDayBox");
+          eachDayContainer.classList.add("eachdaybox");
 
           //display date
           let dateDisplayed = document.createElement("h4");
@@ -131,14 +134,24 @@ function getNextFiveDays(data) {
           //display temperatur
           let tempDisplayed = document.createElement("p");
           tempDisplayed.appendChild(
-            document.createTextNode(selectedCityFuture.temperature + "F")
+            document.createTextNode(
+              "Temperature: " + selectedCityFuture.temperature + "°F"
+            )
           );
           eachDayContainer.appendChild(tempDisplayed);
+          //display wind
+          let windDisplayed = document.createElement("p");
+          windDisplayed.appendChild(
+            document.createTextNode("Wind :" + selectedCityFuture.wind + "MPH")
+          );
+          eachDayContainer.appendChild(windDisplayed);
 
           //display humidity
           let humidityDisplayed = document.createElement("p");
           humidityDisplayed.appendChild(
-            document.createTextNode(selectedCityFuture.humidity)
+            document.createTextNode(
+              "Humidity: " + selectedCityFuture.humidity + "%"
+            )
           );
           eachDayContainer.appendChild(humidityDisplayed);
 
