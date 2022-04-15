@@ -84,6 +84,12 @@ body {
   position: relative;
   width: 100%;
 }
+.uvindex-display {
+  display: flex;
+}
+.uvDivClass {
+  margin-left: 5px;
+}
 #conditions {
   list-style-type: none;
   text-align: left;
