@@ -206,6 +206,15 @@ function getUvIndex(uvData) {
 
   let uvDiv = document.createElement("div");
   uvDiv.classList.add("uvDivClass");
+  if (uvIndex <= 2) {
+    uvDiv.classList.add("green");
+  } else if (uvIndex > 2 && uvIndex <= 5) {
+    uvDiv.classList.add("yellow");
+  } else if (uvIndex > 5 && uvIndex <= 8) {
+    uvDiv.classList.add("orange");
+  } else {
+    uvDiv.classList.add("red");
+  }
 
   uvDiv.appendChild(document.createTextNode(" " + uvIndex));
   listitem4.innerText = "uvIndex : ";
