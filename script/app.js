@@ -4,6 +4,7 @@ let currentLocation = document.getElementById("currentlocation");
 let currentForecast = document.getElementById("current-forecast");
 let currentConditions = document.getElementById("conditions");
 let displayForecastSection = document.querySelector(".rside");
+let searchBtn = document.getElementById("search-btn");
 let city;
 let fiveDaysContainer = document.getElementById("fiveday-forecast");
 let searchedCity = [];
@@ -17,6 +18,13 @@ searchInput.addEventListener("keypress", (e) => {
     getData(city);
     saveCitySearched(city);
   }
+});
+//event listener to get the city name when clicking the search btn
+searchBtn.addEventListener("click", (e) => {
+  city = searchInput.value.toLowerCase();
+  getData(city);
+  saveCitySearched(city);
+  console.log("hello");
 });
 // event listener to get data when the btn in the city list is clicked
 searchList.addEventListener("click", (e) => {
