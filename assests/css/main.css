@@ -54,18 +54,21 @@ body {
 /*style right side / forcast display page */
 .rside {
   display: none;
-  background: -webkit-linear-gradient(
+  /* background: -webkit-linear-gradient(
     bottom,
     rgb(255, 203, 112) 0%,
     rgb(107, 138, 169) 30%,
     rgb(1, 44, 87) 100%
-  );
+  ); */
   min-height: 100vh;
+  padding: 10px;
 
   /* background: var(--primary);
   background: linear-gradient(0deg, rgba(0, 0, 200, 0.2), rgba(0, 0, 200, 0)); */
 }
-
+.currentLocationDetails {
+  padding: 10px;
+}
 .location {
   margin-top: 2em;
   text-align: left;
@@ -79,7 +82,7 @@ body {
   margin-bottom: 50px;
 
   position: relative;
-  width: 420px;
+  width: 100%;
 }
 #conditions {
   list-style-type: none;
@@ -101,4 +104,5 @@ body {
   padding: 1em;
   margin-top: 1em;
   box-shadow: 0 1px 6px rgb(107, 138, 169), 0 1px 4px rgb(1, 44, 87);
+  flex: 1;
 }
