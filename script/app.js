@@ -126,6 +126,7 @@ function getNextFiveDays(data) {
       })
       .then(function (fiveDaysInfo) {
         // console.log(fiveDaysInfo);
+        getUvIndex(fiveDaysInfo);
         fiveDaysContainer.innerText = "";
 
         // create a for loop to display the card 5 times, so the next 5 days
@@ -195,6 +196,23 @@ function getNextFiveDays(data) {
   }
 }
 
+// function to get the uv index of the location
+function getUvIndex(uvData) {
+  let uvIndex = uvData.daily[0].uvi;
+  console.log(uvIndex);
+
+  let listitem4 = document.createElement("li");
+  listitem4.classList.add("uvindex-display");
+
+  let uvDiv = document.createElement("div");
+  uvDiv.classList.add("uvDivClass");
+
+  uvDiv.appendChild(document.createTextNode(" " + uvIndex));
+  listitem4.innerText = "uvIndex : ";
+  listitem4.appendChild(uvDiv);
+
+  currentConditions.appendChild(listitem4);
+}
 // to have previous searched city present
 function showSavedCity() {
   let savedCity = JSON.parse(localStorage.getItem("cityname"));
