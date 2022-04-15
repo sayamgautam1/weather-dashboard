@@ -23,8 +23,10 @@ searchInput.addEventListener("keypress", (e) => {
     // const newData = getData(city);
     const newData = () => {
       getData(city).then((a) => {
+        console.log(a);
         displayCurrentConditions(a);
         getNextFiveDays(a);
+        saveCitySearched(a.name);
       });
     };
     newData();
@@ -37,6 +39,7 @@ searchBtn.addEventListener("click", (e) => {
     getData(city).then((a) => {
       displayCurrentConditions(a);
       getNextFiveDays(a);
+      saveCitySearched(a.name);
     });
   };
   newData();
@@ -59,6 +62,7 @@ function getData(location) {
   return fetch(requestUrl)
     .then(function (response) {
       if (!response.ok) {
+        alert("input error");
         throw response.json();
       }
       return response.json();
@@ -71,7 +75,6 @@ function getData(location) {
 
 // display current condtions of the city enetered
 function displayCurrentConditions(data) {
-  saveCitySearched(city);
   displayForecastSection.style.display = "block";
   currentConditions.innerText = "";
   currentCityName.innerText = data.name;
