@@ -90,6 +90,25 @@ body {
 .uvDivClass {
   margin-left: 5px;
 }
+
+/* create 3 class with 3 different bg color to set into uv index 
+-green for favorable
+-orange for moderate
+-red for severe
+*/
+.green {
+  background-color: green;
+}
+.yellow {
+  background-color: yellow;
+}
+.orange {
+  background-color: orange;
+}
+.red {
+  background-color: red;
+}
+
 #conditions {
   list-style-type: none;
   text-align: left;
