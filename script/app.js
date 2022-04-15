@@ -19,14 +19,12 @@ searchInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
     city = searchInput.value.toLowerCase();
     getData(city);
-    saveCitySearched(city);
   }
 });
 //event listener to get the city name when clicking the search btn
 searchBtn.addEventListener("click", (e) => {
   city = searchInput.value.toLowerCase();
   getData(city);
-  saveCitySearched(city);
 });
 // event listener to get data when the btn in the city list is clicked
 searchList.addEventListener("click", (e) => {
@@ -55,10 +53,21 @@ function getData(location) {
 }
 // display current condtions of the city enetered
 function displayCurrentConditions(data) {
+  saveCitySearched(city);
   displayForecastSection.style.display = "block";
   currentConditions.innerText = "";
   currentCityName.innerText = data.name;
-  currentCityDate.innerText = todayDate;
+  currentCityDate.innerText = "(" + todayDate + ")";
+  // for current weather icon
+  currentWeatherIcon.innerText = "";
+  let currentWeatherImg = data.weather[0].icon;
+  let currentWeatherImgSrc = `https://openweathermap.org/img/w/${currentWeatherImg}.png`;
+  let currentIcon = document.createElement("img");
+  currentIcon.setAttribute("src", currentWeatherImgSrc);
+  currentIcon.setAttribute("alt", currentWeatherImg);
+  currentIcon.setAttribute("width", "50px");
+  currentIcon.setAttribute("height", "50px");
+  currentWeatherIcon.append(currentIcon);
   // currentLocation.innerText = data.name + " " + todayDate;
   let listitem1 = document.createElement("li");
   listitem1.appendChild(
@@ -116,16 +125,8 @@ function getNextFiveDays(data) {
         return futureResponse.json();
       })
       .then(function (fiveDaysInfo) {
-        console.log(fiveDaysInfo);
+        // console.log(fiveDaysInfo);
         fiveDaysContainer.innerText = "";
-        let currentWeatherImg = fiveDaysInfo.daily[0].weather[0].icon;
-        let currentWeatherImgSrc = `https://openweathermap.org/img/w/${currentWeatherImg}.png`;
-        let currentIcon = document.createElement("img");
-        currentIcon.setAttribute("src", currentWeatherImgSrc);
-        currentIcon.setAttribute("alt", currentWeatherImg);
-        currentIcon.setAttribute("width", "50px");
-        currentIcon.setAttribute("height", "50px");
-        currentWeatherIcon.append(currentIcon);
 
         // create a for loop to display the card 5 times, so the next 5 days
         for (i = 1; i < 6; i++) {
