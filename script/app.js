@@ -1,6 +1,9 @@
 let searchInput = document.getElementById("searchlocation");
 let searchList = document.getElementById("searchlist");
 let currentLocation = document.getElementById("currentlocation");
+let currentCityName = document.querySelector(".cityname");
+let currentWeatherIcon = document.querySelector(".cityWeatherIcon");
+let currentCityDate = document.querySelector(".cityCurrentDate");
 let currentForecast = document.getElementById("current-forecast");
 let currentConditions = document.getElementById("conditions");
 let displayForecastSection = document.querySelector(".rside");
@@ -24,7 +27,6 @@ searchBtn.addEventListener("click", (e) => {
   city = searchInput.value.toLowerCase();
   getData(city);
   saveCitySearched(city);
-  console.log("hello");
 });
 // event listener to get data when the btn in the city list is clicked
 searchList.addEventListener("click", (e) => {
@@ -55,7 +57,9 @@ function getData(location) {
 function displayCurrentConditions(data) {
   displayForecastSection.style.display = "block";
   currentConditions.innerText = "";
-  currentLocation.innerText = data.name + " " + todayDate;
+  currentCityName.innerText = data.name;
+  currentCityDate.innerText = todayDate;
+  // currentLocation.innerText = data.name + " " + todayDate;
   let listitem1 = document.createElement("li");
   listitem1.appendChild(
     document.createTextNode("Temperature: " + data.main.temp + "°F")
@@ -89,6 +93,7 @@ function saveCitySearched(cityname) {
     cityDisplayed.classList.add("city-list-btn");
     cityDisplayed.appendChild(document.createTextNode(scity));
     let list = document.createElement("li");
+    list.innerHTML = `<i class="fa-solid fa-magnifying-glass">`;
     list.appendChild(cityDisplayed);
     searchList.appendChild(list);
   });
@@ -111,9 +116,19 @@ function getNextFiveDays(data) {
         return futureResponse.json();
       })
       .then(function (fiveDaysInfo) {
+        console.log(fiveDaysInfo);
         fiveDaysContainer.innerText = "";
+        let currentWeatherImg = fiveDaysInfo.daily[0].weather[0].icon;
+        let currentWeatherImgSrc = `https://openweathermap.org/img/w/${currentWeatherImg}.png`;
+        let currentIcon = document.createElement("img");
+        currentIcon.setAttribute("src", currentWeatherImgSrc);
+        currentIcon.setAttribute("alt", currentWeatherImg);
+        currentIcon.setAttribute("width", "50px");
+        currentIcon.setAttribute("height", "50px");
+        currentWeatherIcon.append(currentIcon);
+
         // create a for loop to display the card 5 times, so the next 5 days
-        for (i = 0; i < 5; i++) {
+        for (i = 1; i < 6; i++) {
           let selectedCityFuture = {
             date: fiveDaysInfo.daily[i].dt,
             icon: fiveDaysInfo.daily[i].weather[0].icon,
@@ -141,6 +156,8 @@ function getNextFiveDays(data) {
           let picture = document.createElement("img");
           picture.setAttribute("src", iconImageSrc);
           picture.setAttribute("alt", iconImageAlt);
+          picture.setAttribute("width", "50px");
+          picture.setAttribute("height", "50px");
           iconDisplayed.appendChild(picture);
           eachDayContainer.appendChild(iconDisplayed);
 
@@ -186,6 +203,7 @@ function showSavedCity() {
       cityDisplayed.classList.add("city-list-btn");
       cityDisplayed.appendChild(document.createTextNode(scity));
       let list = document.createElement("li");
+      list.innerHTML = `<i class="fa-solid fa-magnifying-glass">`;
       list.appendChild(cityDisplayed);
       searchList.appendChild(list);
     });
