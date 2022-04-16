@@ -64,7 +64,7 @@ function getData(location) {
   return fetch(requestUrl)
     .then(function (response) {
       if (!response.ok) {
-        alert("input error");
+        alert("sorry, the city you have search cannot be found");
         throw response.json();
       }
       return response.json();
@@ -193,9 +193,7 @@ function getNextFiveDays(data) {
         //display temperatur
         let tempDisplayed = document.createElement("p");
         tempDisplayed.innerHTML =
-          "<h1>Temperature: " +
-          selectedCityFuture.temperature +
-          "&nbsp;°C</h1>";
+          "Temperature: " + selectedCityFuture.temperature + "&nbsp;°C";
 
         eachDayContainer.appendChild(tempDisplayed);
         //display wind
