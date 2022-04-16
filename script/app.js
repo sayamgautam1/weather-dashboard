@@ -57,7 +57,7 @@ searchList.addEventListener("click", (e) => {
 });
 //get api request of the city name,
 function getData(location) {
-  const requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${apiKey}`;
+  const requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`;
 
   return fetch(requestUrl)
     .then(function (response) {
@@ -92,17 +92,17 @@ function displayCurrentConditions(data) {
   // currentLocation.innerText = data.name + " " + todayDate;
   let listitem1 = document.createElement("li");
   listitem1.appendChild(
-    document.createTextNode("Temperature: " + data.main.temp + "°F")
+    document.createTextNode("Temperature: " + data.main.temp + " °C")
   );
   currentConditions.appendChild(listitem1);
   let listitem2 = document.createElement("li");
   listitem2.appendChild(
-    document.createTextNode("Humidity: " + data.main.humidity + "%")
+    document.createTextNode("Humidity: " + data.main.humidity + " %")
   );
   currentConditions.appendChild(listitem2);
   let listitem3 = document.createElement("li");
   listitem3.appendChild(
-    document.createTextNode("Windspeed: " + data.wind.speed + "MPH")
+    document.createTextNode("Windspeed: " + data.wind.speed + " m/s")
   );
   currentConditions.appendChild(listitem3);
 }
@@ -135,7 +135,7 @@ function getNextFiveDays(data) {
   let longitude = data.coord.lon;
   let lattitude = data.coord.lat;
 
-  const nextFiveDaysUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lattitude}&lon=${longitude}&units=imperial&exclude=current,minutely,hourly,alerts&appid=${apiKey}`;
+  const nextFiveDaysUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lattitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
 
   fetch(nextFiveDaysUrl)
     .then(function (futureResponse) {
@@ -145,7 +145,7 @@ function getNextFiveDays(data) {
       return futureResponse.json();
     })
     .then(function (fiveDaysInfo) {
-      // console.log(fiveDaysInfo);
+      console.log(fiveDaysInfo);
       getUvIndex(fiveDaysInfo);
       fiveDaysContainer.innerText = "";
 
@@ -187,14 +187,14 @@ function getNextFiveDays(data) {
         let tempDisplayed = document.createElement("p");
         tempDisplayed.appendChild(
           document.createTextNode(
-            "Temperature: " + selectedCityFuture.temperature + "°F"
+            "Temperature: " + selectedCityFuture.temperature + " °C"
           )
         );
         eachDayContainer.appendChild(tempDisplayed);
         //display wind
         let windDisplayed = document.createElement("p");
         windDisplayed.appendChild(
-          document.createTextNode("Wind :" + selectedCityFuture.wind + "MPH")
+          document.createTextNode("Wind: " + selectedCityFuture.wind + " m/s")
         );
         eachDayContainer.appendChild(windDisplayed);
 
@@ -202,7 +202,7 @@ function getNextFiveDays(data) {
         let humidityDisplayed = document.createElement("p");
         humidityDisplayed.appendChild(
           document.createTextNode(
-            "Humidity: " + selectedCityFuture.humidity + "%"
+            "Humidity: " + selectedCityFuture.humidity + " %"
           )
         );
         eachDayContainer.appendChild(humidityDisplayed);
@@ -216,7 +216,7 @@ function getNextFiveDays(data) {
 // function to get the uv index of the location
 function getUvIndex(uvData) {
   let uvIndex = uvData.daily[0].uvi;
-  console.log(uvIndex);
+  // console.log(uvIndex);
 
   let listitem4 = document.createElement("li");
   listitem4.classList.add("uvindex-display");
