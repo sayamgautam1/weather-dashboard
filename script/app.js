@@ -21,15 +21,11 @@ searchInput.addEventListener("keypress", (e) => {
     console.log("hello world");
 
     // const newData = getData(city);
-    const newData = () => {
-      getData(city).then((a) => {
-        console.log(a);
-        currentCityName.innerText = a.name;
-        getNextFiveDays(a);
-        saveCitySearched(a.name);
-      });
-    };
-    newData();
+    getData(city).then((a) => {
+      currentCityName.innerText = a.name;
+      getNextFiveDays(a);
+      saveCitySearched(a.name);
+    });
   }
 });
 //event listener to get the city name when clicking the search btn
@@ -190,11 +186,11 @@ function getNextFiveDays(data) {
 
         //display temperatur
         let tempDisplayed = document.createElement("p");
-        tempDisplayed.appendChild(
-          document.createTextNode(
-            "Temperature: " + selectedCityFuture.temperature + " °C"
-          )
-        );
+        tempDisplayed.innerHTML =
+          "<h1>Temperature: " +
+          selectedCityFuture.temperature +
+          "&nbsp;°C</h1>";
+
         eachDayContainer.appendChild(tempDisplayed);
         //display wind
         let windDisplayed = document.createElement("p");
@@ -265,3 +261,8 @@ showSavedCity();
 2. name from key main
 3. weather from key main => temp, wind,humidity 
 */
+
+function handleFormSubmit(form) {
+  const cityname = form.querySelector("#searchlocation").value;
+  console.log("searching for city: ", cityname);
+}

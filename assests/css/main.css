@@ -89,6 +89,7 @@ body {
 }
 .uvDivClass {
   margin-left: 5px;
+  padding: 0 5px;
 }
 
 /* create 3 class with 3 different bg color to set into uv index 
