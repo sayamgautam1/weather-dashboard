@@ -12,7 +12,7 @@ let city;
 let fiveDaysContainer = document.getElementById("fiveday-forecast");
 let searchedCity = [];
 
-let todayDate = moment().format("L");
+let todayDate = moment().format("DD/MM/YYYY");
 let apiKey = "55dea95f4672af9a4915f9b86aaf1de6"; //get from weather api account
 /// event listener to get the city name on enter
 searchInput.addEventListener("keypress", (e) => {
@@ -24,7 +24,7 @@ searchInput.addEventListener("keypress", (e) => {
     const newData = () => {
       getData(city).then((a) => {
         console.log(a);
-        displayCurrentConditions(a);
+        currentCityName.innerText = a.name;
         getNextFiveDays(a);
         saveCitySearched(a.name);
       });
@@ -37,7 +37,7 @@ searchBtn.addEventListener("click", (e) => {
   city = searchInput.value.toLowerCase();
   const newData = () => {
     getData(city).then((a) => {
-      displayCurrentConditions(a);
+      currentCityName.innerText = a.name;
       getNextFiveDays(a);
       saveCitySearched(a.name);
     });
@@ -49,7 +49,7 @@ searchList.addEventListener("click", (e) => {
   city = e.target.innerText.toLowerCase();
   const newData = () => {
     getData(city).then((a) => {
-      displayCurrentConditions(a);
+      currentCityName.innerText = a.name;
       getNextFiveDays(a);
     });
   };
@@ -68,20 +68,24 @@ function getData(location) {
       return response.json();
     })
     .then(function (data) {
-      // console.log(data);
+      console.log(data);
       return data;
     });
+}
+//function display city name
+function displayCityName(data) {
+  currentCityName.innerText = data.name;
 }
 
 // display current condtions of the city enetered
 function displayCurrentConditions(data) {
   displayForecastSection.style.display = "block";
   currentConditions.innerText = "";
-  currentCityName.innerText = data.name;
+  // currentCityName.innerText = data.name;
   currentCityDate.innerText = "(" + todayDate + ")";
   // for current weather icon
   currentWeatherIcon.innerText = "";
-  let currentWeatherImg = data.weather[0].icon;
+  let currentWeatherImg = data.current.weather[0].icon;
   let currentWeatherImgSrc = `https://openweathermap.org/img/w/${currentWeatherImg}.png`;
   let currentIcon = document.createElement("img");
   currentIcon.setAttribute("src", currentWeatherImgSrc);
@@ -92,17 +96,17 @@ function displayCurrentConditions(data) {
   // currentLocation.innerText = data.name + " " + todayDate;
   let listitem1 = document.createElement("li");
   listitem1.appendChild(
-    document.createTextNode("Temperature: " + data.main.temp + " °C")
+    document.createTextNode("Temperature: " + data.current.temp + " °C")
   );
   currentConditions.appendChild(listitem1);
   let listitem2 = document.createElement("li");
   listitem2.appendChild(
-    document.createTextNode("Humidity: " + data.main.humidity + " %")
+    document.createTextNode("Humidity: " + data.current.humidity + " %")
   );
   currentConditions.appendChild(listitem2);
   let listitem3 = document.createElement("li");
   listitem3.appendChild(
-    document.createTextNode("Windspeed: " + data.wind.speed + " m/s")
+    document.createTextNode("Windspeed: " + data.current.wind_speed + " m/s")
   );
   currentConditions.appendChild(listitem3);
 }
@@ -146,6 +150,7 @@ function getNextFiveDays(data) {
     })
     .then(function (fiveDaysInfo) {
       console.log(fiveDaysInfo);
+      displayCurrentConditions(fiveDaysInfo);
       getUvIndex(fiveDaysInfo);
       fiveDaysContainer.innerText = "";
 
@@ -161,7 +166,7 @@ function getNextFiveDays(data) {
 
         let nextDate = moment
           .unix(selectedCityFuture.date)
-          .format("MM/DD/YYYY");
+          .format("DD/MM/YYYY");
         let iconImageSrc = `https://openweathermap.org/img/w/${selectedCityFuture.icon}.png`;
         let iconImageAlt = `${fiveDaysInfo.daily[i].weather[0].icon}`;
 
@@ -215,7 +220,7 @@ function getNextFiveDays(data) {
 
 // function to get the uv index of the location
 function getUvIndex(uvData) {
-  let uvIndex = uvData.daily[0].uvi;
+  let uvIndex = uvData.current.uvi;
   // console.log(uvIndex);
 
   let listitem4 = document.createElement("li");
