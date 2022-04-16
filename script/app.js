@@ -14,42 +14,48 @@ let searchedCity = [];
 
 let todayDate = moment().format("DD/MM/YYYY");
 let apiKey = "55dea95f4672af9a4915f9b86aaf1de6"; //get from weather api account
-/// event listener to get the city name on enter
-searchInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    city = searchInput.value.toLowerCase();
-    console.log("hello world");
+/// event listener to get the city name using form element
 
-    // const newData = getData(city);
-    getData(city).then((a) => {
-      currentCityName.innerText = a.name;
-      getNextFiveDays(a);
-      saveCitySearched(a.name);
-    });
-  }
-});
+function handleFormSubmit(form) {
+  const cityname = form.querySelector("#searchlocation").value;
+  getData(cityname).then((a) => {
+    currentCityName.innerText = a.name;
+    getNextFiveDays(a);
+    saveCitySearched(a.name);
+  });
+}
+// searchInput.addEventListener("keypress", (e) => {
+//   if (e.key === "Enter") {
+//     city = searchInput.value.toLowerCase();
+//     console.log("hello world");
+
+//     // const newData = getData(city);
+//     getData(city).then((a) => {
+//       currentCityName.innerText = a.name;
+//       getNextFiveDays(a);
+//       saveCitySearched(a.name);
+//     });
+//   }
+// });
 //event listener to get the city name when clicking the search btn
-searchBtn.addEventListener("click", (e) => {
-  city = searchInput.value.toLowerCase();
-  const newData = () => {
-    getData(city).then((a) => {
-      currentCityName.innerText = a.name;
-      getNextFiveDays(a);
-      saveCitySearched(a.name);
-    });
-  };
-  newData();
-});
+// searchBtn.addEventListener("click", (e) => {
+//   city = searchInput.value.toLowerCase();
+//   const newData = () => {
+//     getData(city).then((a) => {
+//       currentCityName.innerText = a.name;
+//       getNextFiveDays(a);
+//       saveCitySearched(a.name);
+//     });
+//   };
+//   newData();
+// });
 // event listener to get data when the btn in the city list is clicked
 searchList.addEventListener("click", (e) => {
   city = e.target.innerText.toLowerCase();
-  const newData = () => {
-    getData(city).then((a) => {
-      currentCityName.innerText = a.name;
-      getNextFiveDays(a);
-    });
-  };
-  newData();
+  getData(city).then((a) => {
+    currentCityName.innerText = a.name;
+    getNextFiveDays(a);
+  });
 });
 //get api request of the city name,
 function getData(location) {
@@ -261,8 +267,3 @@ showSavedCity();
 2. name from key main
 3. weather from key main => temp, wind,humidity 
 */
-
-function handleFormSubmit(form) {
-  const cityname = form.querySelector("#searchlocation").value;
-  console.log("searching for city: ", cityname);
-}
