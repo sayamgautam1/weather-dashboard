@@ -13,7 +13,7 @@ body {
 /* style the left side of the page */
 .lside {
   background-color: var(--primary);
-  height: 50vh;
+  min-height: 50vh;
 }
 .heading {
   color: var(--secondary);
@@ -61,14 +61,14 @@ body {
     rgb(1, 44, 87) 100%
   ); */
   min-height: 100vh;
-  padding: 10px;
+  padding-left: 1.5em;
 
   /* background: var(--primary);
   background: linear-gradient(0deg, rgba(0, 0, 200, 0.2), rgba(0, 0, 200, 0)); */
 }
-.currentLocationDetails {
+/* .currentLocationDetails {
   padding: 10px;
-}
+} */
 .location {
   margin-top: 2em;
   text-align: left;
@@ -126,9 +126,9 @@ body {
 }
 
 .eachdaybox {
-  border: 1px solid rgb(255, 203, 112);
+  border: 1px solid var(--secondary);
   padding: 1em;
-  margin-top: 1em;
+  margin: 0.5em;
   box-shadow: 0 1px 6px rgb(107, 138, 169), 0 1px 4px rgb(1, 44, 87);
   flex: 1;
 }
