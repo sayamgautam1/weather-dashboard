@@ -34,7 +34,10 @@
         <section class="col-12 col-md-4 col-lg-3 mr-2 lside">
           <h1 class="heading mb-2">Whats the weather like</h1>
           <!--use form elemet to display the search city parameter-->
-          <form action="#" onsubmit="handleFormSubmit(this);">
+          <form
+            action="#"
+            onsubmit="event.preventDefault();handleFormSubmit(this);"
+          >
             <div class="input-group mb-3">
               <input
                 type="text"
