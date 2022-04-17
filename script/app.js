@@ -20,8 +20,12 @@ function handleFormSubmit(form) {
   const cityname = form.querySelector("#searchlocation").value;
   getData(cityname).then((a) => {
     currentCityName.innerText = a.name;
-    getNextFiveDays(a);
     saveCitySearched(a.name);
+    getNextFiveDaysData(a).then((b) => {
+      displayCurrentConditions(b);
+      displayNextFiveDaysInfo(b);
+      displayUvIndex(b);
+    });
   });
 }
 // searchInput.addEventListener("keypress", (e) => {
@@ -54,7 +58,11 @@ searchList.addEventListener("click", (e) => {
   city = e.target.innerText.toLowerCase();
   getData(city).then((a) => {
     currentCityName.innerText = a.name;
-    getNextFiveDays(a);
+    getNextFiveDaysData(a).then((b) => {
+      displayCurrentConditions(b);
+      displayNextFiveDaysInfo(b);
+      displayUvIndex(b);
+    });
   });
 });
 //get api request of the city name,
@@ -73,10 +81,6 @@ function getData(location) {
       console.log(data);
       return data;
     });
-}
-//function display city name
-function displayCityName(data) {
-  currentCityName.innerText = data.name;
 }
 
 // display current condtions of the city enetered
@@ -136,14 +140,14 @@ function saveCitySearched(cityname) {
 
   localStorage.setItem("cityname", JSON.stringify(searchedCity));
 }
-/// display the next 5 days
-function getNextFiveDays(data) {
+
+function getNextFiveDaysData(data) {
   let longitude = data.coord.lon;
   let lattitude = data.coord.lat;
 
   const nextFiveDaysUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lattitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
 
-  fetch(nextFiveDaysUrl)
+  return fetch(nextFiveDaysUrl)
     .then(function (futureResponse) {
       if (!futureResponse.ok) {
         throw futureResponse.json();
@@ -151,75 +155,88 @@ function getNextFiveDays(data) {
       return futureResponse.json();
     })
     .then(function (fiveDaysInfo) {
-      console.log(fiveDaysInfo);
-      displayCurrentConditions(fiveDaysInfo);
-      getUvIndex(fiveDaysInfo);
-      fiveDaysContainer.innerText = "";
-
-      // create a for loop to display the card 5 times, so the next 5 days
-      for (i = 1; i < 6; i++) {
-        let selectedCityFuture = {
-          date: fiveDaysInfo.daily[i].dt,
-          icon: fiveDaysInfo.daily[i].weather[0].icon,
-          temperature: fiveDaysInfo.daily[i].temp.day,
-          humidity: fiveDaysInfo.daily[i].humidity,
-          wind: fiveDaysInfo.daily[i].wind_speed,
-        };
-
-        let nextDate = moment
-          .unix(selectedCityFuture.date)
-          .format("DD/MM/YYYY");
-        let iconImageSrc = `https://openweathermap.org/img/w/${selectedCityFuture.icon}.png`;
-        let iconImageAlt = `${fiveDaysInfo.daily[i].weather[0].icon}`;
-
-        let eachDayContainer = document.createElement("div");
-        eachDayContainer.classList.add("eachdaybox");
-
-        //display date
-        let dateDisplayed = document.createElement("h4");
-        dateDisplayed.appendChild(document.createTextNode(nextDate));
-        eachDayContainer.appendChild(dateDisplayed);
-
-        //display icon
-        let iconDisplayed = document.createElement("p");
-        let picture = document.createElement("img");
-        picture.setAttribute("src", iconImageSrc);
-        picture.setAttribute("alt", iconImageAlt);
-        picture.setAttribute("width", "50px");
-        picture.setAttribute("height", "50px");
-        iconDisplayed.appendChild(picture);
-        eachDayContainer.appendChild(iconDisplayed);
-
-        //display temperatur
-        let tempDisplayed = document.createElement("p");
-        tempDisplayed.innerHTML =
-          "Temperature: " + selectedCityFuture.temperature + "&nbsp;°C";
-
-        eachDayContainer.appendChild(tempDisplayed);
-        //display wind
-        let windDisplayed = document.createElement("p");
-        windDisplayed.appendChild(
-          document.createTextNode("Wind: " + selectedCityFuture.wind + " m/s")
-        );
-        eachDayContainer.appendChild(windDisplayed);
-
-        //display humidity
-        let humidityDisplayed = document.createElement("p");
-        humidityDisplayed.appendChild(
-          document.createTextNode(
-            "Humidity: " + selectedCityFuture.humidity + " %"
-          )
-        );
-        eachDayContainer.appendChild(humidityDisplayed);
-
-        // display all the data in the container
-        fiveDaysContainer.appendChild(eachDayContainer);
-      }
+      return fiveDaysInfo;
     });
+}
+/// display the next 5 days
+function displayNextFiveDaysInfo(fiveDaysInfo) {
+  // let longitude = data.coord.lon;
+  // let lattitude = data.coord.lat;
+
+  // const nextFiveDaysUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lattitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
+
+  // fetch(nextFiveDaysUrl)
+  //   .then(function (futureResponse) {
+  //     if (!futureResponse.ok) {
+  //       throw futureResponse.json();
+  //     }
+  //     return futureResponse.json();
+  //   })
+  //   .then(function (fiveDaysInfo) {
+  //     console.log(fiveDaysInfo);
+  //     displayCurrentConditions(fiveDaysInfo);
+  //     getUvIndex(fiveDaysInfo);
+  //     fiveDaysContainer.innerText = "";
+  fiveDaysContainer.innerText = "";
+  // create a for loop to display the card 5 times, so the next 5 days
+  for (i = 1; i < 6; i++) {
+    let selectedCityFuture = {
+      date: fiveDaysInfo.daily[i].dt,
+      icon: fiveDaysInfo.daily[i].weather[0].icon,
+      temperature: fiveDaysInfo.daily[i].temp.day,
+      humidity: fiveDaysInfo.daily[i].humidity,
+      wind: fiveDaysInfo.daily[i].wind_speed,
+    };
+
+    let nextDate = moment.unix(selectedCityFuture.date).format("DD/MM/YYYY");
+    let iconImageSrc = `https://openweathermap.org/img/w/${selectedCityFuture.icon}.png`;
+    let iconImageAlt = `${fiveDaysInfo.daily[i].weather[0].icon}`;
+
+    let eachDayContainer = document.createElement("div");
+    eachDayContainer.classList.add("eachdaybox");
+
+    //display date
+    let dateDisplayed = document.createElement("h4");
+    dateDisplayed.appendChild(document.createTextNode(nextDate));
+    eachDayContainer.appendChild(dateDisplayed);
+
+    //display icon
+    let iconDisplayed = document.createElement("p");
+    let picture = document.createElement("img");
+    picture.setAttribute("src", iconImageSrc);
+    picture.setAttribute("alt", iconImageAlt);
+    picture.setAttribute("width", "50px");
+    picture.setAttribute("height", "50px");
+    iconDisplayed.appendChild(picture);
+    eachDayContainer.appendChild(iconDisplayed);
+
+    //display temperatur
+    let tempDisplayed = document.createElement("p");
+    tempDisplayed.innerHTML =
+      "Temperature: " + selectedCityFuture.temperature + "&nbsp;°C";
+
+    eachDayContainer.appendChild(tempDisplayed);
+    //display wind
+    let windDisplayed = document.createElement("p");
+    windDisplayed.appendChild(
+      document.createTextNode("Wind: " + selectedCityFuture.wind + " m/s")
+    );
+    eachDayContainer.appendChild(windDisplayed);
+
+    //display humidity
+    let humidityDisplayed = document.createElement("p");
+    humidityDisplayed.appendChild(
+      document.createTextNode("Humidity: " + selectedCityFuture.humidity + " %")
+    );
+    eachDayContainer.appendChild(humidityDisplayed);
+
+    // display all the data in the container
+    fiveDaysContainer.appendChild(eachDayContainer);
+  }
 }
 
 // function to get the uv index of the location
-function getUvIndex(uvData) {
+function displayUvIndex(uvData) {
   let uvIndex = uvData.current.uvi;
   // console.log(uvIndex);
 
